@@ -8,6 +8,15 @@ app.set("view engine", "ejs");
 let campgrounds = [
     {name: "Dry River", image: "https://www.reserveamerica.com/webphotos/NH/pid270015/0/540x360.jpg"},
     {name: "Yosemite Westlake", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
+    {name: "Tipsinah Mounds", image: "http://tipsinahmoundscampground.com/wp-content/uploads/2017/07/IMG_6559-copy.jpg"},
+    {name: "Dry River", image: "https://www.reserveamerica.com/webphotos/NH/pid270015/0/540x360.jpg"},
+    {name: "Yosemite Westlake", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
+    {name: "Tipsinah Mounds", image: "http://tipsinahmoundscampground.com/wp-content/uploads/2017/07/IMG_6559-copy.jpg"},
+    {name: "Dry River", image: "https://www.reserveamerica.com/webphotos/NH/pid270015/0/540x360.jpg"},
+    {name: "Yosemite Westlake", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
+    {name: "Tipsinah Mounds", image: "http://tipsinahmoundscampground.com/wp-content/uploads/2017/07/IMG_6559-copy.jpg"},
+    {name: "Dry River", image: "https://www.reserveamerica.com/webphotos/NH/pid270015/0/540x360.jpg"},
+    {name: "Yosemite Westlake", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
     {name: "Tipsinah Mounds", image: "http://tipsinahmoundscampground.com/wp-content/uploads/2017/07/IMG_6559-copy.jpg"}
   ];
 
