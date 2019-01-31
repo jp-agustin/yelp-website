@@ -11,6 +11,7 @@ Sample website using the following web dev technologies:
 * Node.js
   * NPM
   * Express.js
+  * MongooseDB
 * Database
   * MongoDB
 
