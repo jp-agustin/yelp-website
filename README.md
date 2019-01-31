@@ -6,6 +6,7 @@ Sample website using the following web dev technologies:
 * HTML5
 * CSS3
   * Bootstrap 4
+  * Semantic UI
 * Javascript
   * jQuery
 * Node.js
