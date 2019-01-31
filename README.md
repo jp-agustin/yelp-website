@@ -11,8 +11,9 @@ Sample website using the following web dev technologies:
 * Node.js
   * NPM
   * Express.js
-  * MongooseDB
+  * Mongoose
 * Database
   * MongoDB
+* RESTful Routing
 
 *Credits: A project website under the The Web Developer Bootcamp course by Colt Steele.*
