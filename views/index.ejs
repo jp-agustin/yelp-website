@@ -17,6 +17,9 @@
         <figure class="figure">
           <img class="img-thumbnail" src="<%= campground.image %>">
           <figcaption class="figure-caption"><%= campground.name %></figcaption>
+          <p>
+            <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
+          </p>
         </figure>
       </div>
     <% }) %>

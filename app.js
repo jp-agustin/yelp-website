@@ -10,7 +10,8 @@ app.set("view engine", "ejs");
 // SCHEMA SETUP
 let campgroundSchema = new mongoose.Schema({
   name: String,
-  image: String
+  image: String,
+  description: String
 });
 
 let Campground = mongoose.model("Campground", campgroundSchema);
@@ -26,7 +27,7 @@ app.get("/campgrounds", function(req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("campgrounds", {campgrounds: campgrounds});
+      res.render("index", {campgrounds: campgrounds});
     }
   });
 
@@ -36,9 +37,12 @@ app.post("/campgrounds", function(req, res) {
 
   let name = req.body.name;
   let image = req.body.image;
+  let description = req.body.description;
+
   let newCampground = {
     name: name,
-    image: image
+    image: image,
+    description: description
   }
 
   Campground.create(newCampground, function(err, newlyCreated) {
@@ -53,6 +57,18 @@ app.post("/campgrounds", function(req, res) {
 
 app.get("/campgrounds/new", function(req, res) {
   res.render("new")
+});
+
+app.get("/campgrounds/:id", function(req, res) {
+
+  Campground.findById(req.params.id, function(err, foundCampground) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("show", {campground: foundCampground});
+    }
+  });
+
 });
 
 // Error: Page not found
