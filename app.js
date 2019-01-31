@@ -1,34 +1,39 @@
-let express = require("express");
-let app = express();
-let bodyParser = require("body-parser");
+let express     = require("express"),
+    app         = express(),
+    bodyParser  = require("body-parser"),
+    mongoose    = require('mongoose');
 
+mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-let campgrounds = [
-    {name: "Dry River", image: "https://www.reserveamerica.com/webphotos/NH/pid270015/0/540x360.jpg"},
-    {name: "Yosemite Westlake", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
-    {name: "Tipsinah Mounds", image: "http://tipsinahmoundscampground.com/wp-content/uploads/2017/07/IMG_6559-copy.jpg"},
-    {name: "Dry River", image: "https://www.reserveamerica.com/webphotos/NH/pid270015/0/540x360.jpg"},
-    {name: "Yosemite Westlake", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
-    {name: "Tipsinah Mounds", image: "http://tipsinahmoundscampground.com/wp-content/uploads/2017/07/IMG_6559-copy.jpg"},
-    {name: "Dry River", image: "https://www.reserveamerica.com/webphotos/NH/pid270015/0/540x360.jpg"},
-    {name: "Yosemite Westlake", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
-    {name: "Tipsinah Mounds", image: "http://tipsinahmoundscampground.com/wp-content/uploads/2017/07/IMG_6559-copy.jpg"},
-    {name: "Dry River", image: "https://www.reserveamerica.com/webphotos/NH/pid270015/0/540x360.jpg"},
-    {name: "Yosemite Westlake", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
-    {name: "Tipsinah Mounds", image: "http://tipsinahmoundscampground.com/wp-content/uploads/2017/07/IMG_6559-copy.jpg"}
-  ];
+// SCHEMA SETUP
+let campgroundSchema = new mongoose.Schema({
+  name: String,
+  image: String
+});
 
+let Campground = mongoose.model("Campground", campgroundSchema);
+
+// ROUTES
 app.get("/", function(req, res) {
   res.render("landing");
 });
 
 app.get("/campgrounds", function(req, res) {
-  res.render("campgrounds", {campgrounds: campgrounds});
+
+  Campground.find({}, function(err, campgrounds) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("campgrounds", {campgrounds: campgrounds});
+    }
+  });
+
 });
 
 app.post("/campgrounds", function(req, res) {
+
   let name = req.body.name;
   let image = req.body.image;
   let newCampground = {
@@ -36,8 +41,14 @@ app.post("/campgrounds", function(req, res) {
     image: image
   }
 
-  campgrounds.push(newCampground);
-  res.redirect("/campgrounds");
+  Campground.create(newCampground, function(err, newlyCreated) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campgrounds");
+    }
+  });
+
 });
 
 app.get("/campgrounds/new", function(req, res) {
