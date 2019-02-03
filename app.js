@@ -24,7 +24,7 @@ app.get("/campgrounds", function(req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("index", {campgrounds: campgrounds});
+      res.render("campgrounds/index", {campgrounds: campgrounds});
     }
   });
 
@@ -55,7 +55,7 @@ app.post("/campgrounds", function(req, res) {
 
 // CAMPGROUND NEW
 app.get("/campgrounds/new", function(req, res) {
-  res.render("new")
+  res.render("campgrounds/new")
 });
 
 // CAMPGROUND SHOW
@@ -65,9 +65,44 @@ app.get("/campgrounds/:id", function(req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("show", {campground: foundCampground});
+      res.render("campgrounds/show", {campground: foundCampground});
     }
   });
+
+});
+
+// COMMENTS CREATE
+app.post("/campgrounds/:id/comments", function(req, res) {
+
+  Campground.findById(req.params.id, function(err, campground){
+    if (err) {
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      Comment.create(req.body.comment, function(err, comment) {
+        if (err) {
+          console.log(err);
+        } else {
+          campground.comments.push(comment);
+          campground.save();
+          res.redirect("/campgrounds/" + req.params.id);
+        }
+      });
+    }
+  });
+
+});
+
+// COMMENTS NEW
+app.get("/campgrounds/:id/comments/new", function(req, res) {
+
+  Campground.findById(req.params.id, function(err, campground) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("comments/new", {campground: campground});
+    }
+  })
 
 });
 
