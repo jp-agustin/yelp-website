@@ -17,7 +17,22 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 // seedDB();
 
+// PASSPORT CONFIG
+app.use(require("express-session") ({
+  secret: "Secret Encode",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // ROUTES
+
 // ROOT
 app.get("/", function(req, res) {
   res.render("landing");
@@ -110,6 +125,46 @@ app.get("/campgrounds/:id/comments/new", function(req, res) {
     }
   })
 
+});
+
+// AUTH ROUTES
+
+// REGISTER
+app.get("/register", function(req, res) {
+  res.render("register");
+});
+
+app.post("/register", function(req, res) {
+
+  let newUser = new User({username: req.body.username});
+
+  User.register(newUser, req.body.password, function(err, user) {
+    if (err) {
+      console.log(err);
+      return res.render("register")
+    }
+
+    passport.authenticate("local")(req, res, function() {
+      res.redirect("/campgrounds");
+    });
+  });
+
+});
+
+// LOGIN
+app.get("/login", function(req, res) {
+  res.render("login");
+});
+
+app.post("/login", passport.authenticate("local", {
+  successRedirect: "/campgrounds",
+  failureRedirect: "/login"
+}), function(req, res) {});
+
+// LOGOUT
+app.get("/logout", function(req, res) {
+  req.logout();
+  res.redirect("/");
 });
 
 // Error: Page not found
