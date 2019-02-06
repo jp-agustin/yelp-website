@@ -31,6 +31,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 // ROUTES
 
 // ROOT
@@ -93,7 +98,7 @@ app.get("/campgrounds/:id", function(req, res) {
 });
 
 // COMMENTS CREATE
-app.post("/campgrounds/:id/comments", function(req, res) {
+app.post("/campgrounds/:id/comments", isLoggedIn, function(req, res) {
 
   Campground.findById(req.params.id, function(err, campground){
     if (err) {
@@ -115,7 +120,7 @@ app.post("/campgrounds/:id/comments", function(req, res) {
 });
 
 // COMMENTS NEW
-app.get("/campgrounds/:id/comments/new", function(req, res) {
+app.get("/campgrounds/:id/comments/new", isLoggedIn, function(req, res) {
 
   Campground.findById(req.params.id, function(err, campground) {
     if (err) {
@@ -164,8 +169,17 @@ app.post("/login", passport.authenticate("local", {
 // LOGOUT
 app.get("/logout", function(req, res) {
   req.logout();
-  res.redirect("/");
+  res.redirect("/campgrounds");
 });
+
+function isLoggedIn(req, res, next) {
+
+  if (req.isAuthenticated()) {
+    return next();
+  }
+
+  res.redirect("/login");
+}
 
 // Error: Page not found
 app.get("*", function(req, res) {
