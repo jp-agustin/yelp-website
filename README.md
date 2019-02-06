@@ -13,7 +13,7 @@ Sample website using the following web dev technologies:
   * NPM
   * Express.js
   * Mongoose
-  * Authentication
+  * Authentication (Passport.js)
 * Database
   * MongoDB
 * RESTful Routing
