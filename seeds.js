@@ -36,12 +36,12 @@ function seedDB(){
 
       console.log("Removed comments!");
 
-      data.forEach(function(seed) {
-        Campground.create(seed, function(err, campground) {
-          if (err) {
-              console.log(err)
-          } else {
-            console.log("added a campground");
+      // data.forEach(function(seed) {
+      //   Campground.create(seed, function(err, campground) {
+      //     if (err) {
+      //         console.log(err)
+      //     } else {
+      //       console.log("added a campground");
 
             // Comment.create({
             //     text: "This place is great, but I wish there was internet",
@@ -55,9 +55,9 @@ function seedDB(){
             //       console.log("Created new comment");
             //     }
             // });
-          }
-        });
-      });
+      //     }
+      //   });
+      // });
     });
   });
 }
